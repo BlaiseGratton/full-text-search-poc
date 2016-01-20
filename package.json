@@ -1,0 +1,15 @@
+{
+  "name": "full-text-search",
+  "version": "0.0.0",
+  "description": "Proof of concept of using sparql on kaa ttl data loaded into browser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "blaisegratton@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "^1.4.8",
+    "bootstrap": "^3.3.6"
+  }
+}
