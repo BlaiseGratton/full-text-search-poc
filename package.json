@@ -10,6 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "angular": "^1.4.8",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "js-search": "^1.2.2",
+    "underscore": "^1.8.3"
   }
 }

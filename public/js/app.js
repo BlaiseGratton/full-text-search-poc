@@ -1,17 +1,50 @@
 'use strict';
 
+Array.prototype.crush = function() {
+  var crushedArray = [];
+  this.forEach(function(datum) {
+    crushedArray.unshift(flattenKAAObject(datum));
+  });
+  return crushedArray;
+};
+
+function flattenKAAObject(datum) {
+  var flattenedObject = {
+    KAA_type: datum.KAA.type,
+    KAA_value: datum.KAA.value,
+    Text_type: datum.Text.type,
+    Text_value: datum.Text.value,
+  };
+  return flattenedObject;
+}
+
 var app = angular.module('fullTextApp', []);
 
-app.controller('mainController', function(dataService) {
+app.controller('mainController', function(dataService, $scope) {
   var vm = this;
   var allData = [];
+  var flattenedData = [];
+  var search = new JsSearch.Search('Text_value');
+  search.addIndex('KAA_type');
+  search.addIndex('KAA_value');
+  search.addIndex('Text_type');
+  search.addIndex('Text_value');
 
-  vm.viewResults = [];
+  $scope.$watch(function() { return vm.searchInput; }, function(newVal) {
+    if (!newVal || newVal.length <= 2) {
+      vm.searchResults = [];
+    }
+    if (!!newVal && newVal.length > 2) {
+      vm.searchResults = search.search(vm.searchInput);
+    }
+  });
 
   dataService.getAllData().then(function(response) {
     allData = response.data.results.bindings;
+    flattenedData = allData.crush();
+    search.addDocuments(flattenedData);
   }, function(error) {
-    console.log(error);
+    debugger
   });
 });
 
